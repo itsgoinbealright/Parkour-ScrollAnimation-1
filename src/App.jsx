@@ -1,6 +1,4 @@
 import { useState, useEffect, useRef } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
 
 function App() {
@@ -8,12 +6,12 @@ function App() {
   const contextRef = useRef();
   const scrollTopRef = useRef();
   const [showText, setShowText] = useState(false);
-  const totalFrames = 148;
+  const totalFrames = 40;
   useEffect(() => {
     contextRef.current = canvasRef?.current?.getContext("2d");
 
     const img = new Image();
-    img.src = "./src/assets/0001.jpg";
+    img.src = "./src/assets/001.png";
 
     img.onload = () => {
       canvasRef.current.width = window.innerWidth;
@@ -28,7 +26,7 @@ function App() {
     };
 
     const getImageName = (index) =>
-      `./src/assets/${index.toString().padStart(4, "0")}.jpg`;
+      `./src/assets/${index.toString().padStart(3, "0")}.png`;
 
     const preloadImages = () => {
       const imageLoadedPromises = [];
@@ -55,7 +53,7 @@ function App() {
       );
     };
 
-    const handleScroll = (e) => {
+    const handleScroll = () => {
       scrollTopRef.current = document.documentElement.scrollTop;
       const maxScrollDistance =
         document.documentElement.scrollHeight - window.innerHeight;
@@ -65,8 +63,7 @@ function App() {
         totalFrames,
         Math.ceil(fractionScrolled * totalFrames)
       );
-      if (imageIndex < 130) setShowText(false);
-      else setShowText(true);
+
       requestAnimationFrame(() => updateImage(imageIndex));
     };
     window.addEventListener("scroll", handleScroll);
@@ -75,24 +72,13 @@ function App() {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+  
   return (
     <>
       <main id={"main"}>
         <section className={"section-container"}>
-          <div className="hero">
-            <h2 className="hero-text">Wanna Learn Parkour ?</h2>
-          </div>
-        </section>
-        <section className={"section-container"}>
           <div className={"canvas-container"}>
             <canvas ref={canvasRef} id="scroll-canvas" />
-            {showText && <p className={"parkour-text"}>Parkour !</p>}
-          </div>
-        </section>
-        <section className={"section-container"}>
-          <div className="hero">
-            <h1 className="hero-text">Micheal Scott Parkour Company!</h1>
-            <h2>Learn from the best</h2>
           </div>
         </section>
       </main>
